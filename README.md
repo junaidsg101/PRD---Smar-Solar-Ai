@@ -5,16 +5,16 @@
 
 ---
 | Seq | PRD Section Name | Brief Overview|
-| :--  | :-- | :-- |
+| ---  | --- | --- |
 | 1 | **Executive Summary** | **Smart Solar AI Multi-Agent Technical Issue Solver** |
 | 2 | **Problem & Solution** | **(4)Technical Issue & Solution** |
-| 3 | **Scope** | - **MPPT failure/tracking error <br> - Sensor drift/calibration error <br> - Communication protocol failure (Modbus/CAN) <br> - Inverter overheat** |
-| 4 | **Functional Requirements** | Feature <br> - Description <br> - Priority |
-| 5 | **Non-Functional Requirements** | Performance <br> - Reliability <br> - Security <br> - Scalability <br> - Maintainability  |
+| 3 | **Scope** | - **MPPT failure/tracking error  - Sensor drift/calibration error  - Communication protocol failure (Modbus/CAN)  - Inverter overheat** |
+| 4 | **Functional Requirements** | Feature <br> - Description  - Priority |
+| 5 | **Non-Functional Requirements** | Performance  - Reliability  - Security  - Scalability  - Maintainability  |
 | 6 | **Technology Stack & Tools** | Category, Technology / Tool, Purpose |
-| 7 | **Cost Estimate (Production)** | - A. Monthly Operational Costs <br> - B. Overall First-Year Cost Estimate |
+| 7 | **Cost Estimate (Production)** | - A. Monthly Operational Costs  - B. Overall First-Year Cost Estimate |
 | 8 | **Project Timeline & Milestones (6-Week Plan)** | Phase, Duration, Key Deliverables |
-| 9 | **Risks & Mitigation Strategies** | Risk <br> - Impact <br> - Probability <br> - Mitigation Strategy |
+| 9 | **Risks & Mitigation Strategies** | Risk  - Impact  - Probability  - Mitigation Strategy |
 | 10 | **Project Structure** | Folder/ Files |
 | 11 | **System Architecture** | Wrokflow in text formate |
 ---
