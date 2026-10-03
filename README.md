@@ -1,173 +1,215 @@
 # 📄 Product Requirements Document (PRD)
-## Project: Smart Solar AI ☀️🔋
+## **Product Name:** Smart Solar AI  
+**Version:** 2.0  
+**Date:** October 3, 2026  
 
-| Document Details | |
-| :--- | :--- |
-| **Product Name** | Smart Solar AI |
-| **Document Version** | 1.0 |
-| **Date** | September 12, 2026 |
-| **Status** | Draft / In Progress |
-| **Product Type** | AI/ML & Generative AI Web Application |
+---
+| Seq | PRD Section Name | Brief Overview|
+| :--  | :-- | :-- |
+| 1 | **Executive Summary** | **Smart Solar AI Multi-Agent Technical Issue Solver** |
+| 2 | **Problem & Solution** | **(4)Technical Issue & Solution** |
+| 3 | **Scope** | - **MPPT failure/tracking error <br> - Sensor drift/calibration error <br> - Communication protocol failure (Modbus/CAN) <br> - Inverter overheat** |
+| 4 | **Functional Requirements** | Feature <br> - Description <br> - Priority |
+| 5 | **Non-Functional Requirements** | Performance <br> - Reliability <br> - Security <br> - Scalability <br> - Maintainability  |
+| 6 | **Technology Stack & Tools** | Category, Technology / Tool, Purpose |
+| 7 | **Cost Estimate (Production)** | - A. Monthly Operational Costs <br> - B. Overall First-Year Cost Estimate |
+| 8 | **Project Timeline & Milestones (6-Week Plan)** | Phase, Duration, Key Deliverables |
+| 9 | **Risks & Mitigation Strategies** | Risk <br> - Impact <br> - Probability <br> - Mitigation Strategy |
+| 10 | **Project Structure** | Folder/ Files |
+| 11 | **System Architecture** | Wrokflow in text formate |
+---
+
+### **1. Executive Summary**
+Solar energy systems suffer from costly downtime due to undetected or misdiagnosed technical faults (e.g., wiring degradation, grid voltage fluctuations, MPPT failures, communication drops). The **Smart Solar AI Multi-Agent Technical Issue Solver** is an AI-driven, automated diagnostic platform. It utilizes a hybrid multi-agent architecture (Sequence, Parallel, and Magnetic patterns) combined with Machine Learning (Scikit-learn) to ingest sensor data, classify faults with >90% accuracy, prescribe actionable, step-by-step repair steps with time estimates, and generate comprehensive reports, reducing Mean Time To Resolution (MTTR) by up to 60%.
 
 ---
 
-PRD sections, organized sequentially in a table format:
-
-| Seq | PRD Section Name | Brief Overview |
-| :--- | :--- | :--- |
-| **1** | **Executive Summary** | High-level product vision, purpose, and core value proposition. |
-| **2** | **Problem Statement & Solution** | The core user pain points and the AI-driven solution addressing them. |
-| **3** | **Target Audience** | Primary (homeowners) and secondary (solar installers) user personas. |
-| **4** | **Functional Requirements** | Core features including inputs, engineering sizing, financials, and data handling. |
-| **5** | **AI, ML & GenAI Requirements** | Specifics on predictive models (forecasting/anomalies) and LLM narrative generation. |
-| **6** | **Technical Architecture & Stack** | Technology stack, frameworks, and code structure/separation of concerns. |
-| **7** | **User Flow / User Journey** | Step-by-step user experience from onboarding to final AI summary export. |
-| **8** | **Non-Functional Requirements** | Performance, reliability, usability, and security standards (e.g., API key handling). |
-| **9** | **Success Metrics (KPIs)** | Quantifiable goals to measure product success and user satisfaction. |
-| **10** | **Risks & Mitigations** | Potential pitfalls (e.g., LLM hallucinations) and specific fallback strategies. |
+### **2. Problem & Solution**
+| # | Technical Issue | Solution |
+| --- | --- |--- |
+| 1 | Loose or corroded wiring | Tighten connections and replace damaged cables. |
+| 2 | Monitoring system offline | Check internet, power, reset gateway, update firmware. |
+| 3 | Wiring/grounding fault | Tighten connections, test ground, repair damaged cables. |
+| 4 | Grid voltage fluctuation | Use voltage stabilizer, check grid code, adjust inverter settings. |
 
 ---
 
+### **3. Scope**
+- Detection of 8 specific issues: Wiring/grounding faults, Grid voltage fluctuation, Monitoring system offline, Loose/corroded wiring, **MPPT failure/tracking error, Sensor drift/calibration error, Communication protocol failure (Modbus/CAN), Inverter overheat**.
+- Data ingestion from CSV files (20-row historical samples) and simulated real-time API payloads.
+- Multi-Agent orchestration using Sequence, Parallel, and Magnetic patterns with live step-by-step logging.
+- ML-based fault classification (Scikit-learn RandomForest) with automatic in-memory fallback.
+- Web-based UI dashboard (Streamlit) with **Light/Dark mode toggle**, responsive Plotly/Matplotlib charts, and interactive sensor sliders.
+- Logging, audit trails, and severity/financial impact scoring of all agent decisions.
+---
 
-## 1. Executive Summary
-**Smart Solar AI** is an intelligent solar and battery sizing tool designed to democratize solar energy planning. By combining deterministic electrical-engineering sizing formulas with predictive Machine Learning (ML) and Generative AI (GenAI), the application provides homeowners with personalized, data-driven solar recommendations. The tool eliminates the need for an engineering background, transforming complex energy data into actionable, financially sound, and easily understandable solar designs.
-
-## 2. Problem Statement & Solution
-### The Problem
-*   **Complexity:** Sizing a solar + battery system requires complex electrical engineering calculations.
-*   **Lack of Personalization:** Generic calculators don't account for specific household anomalies, future consumption trends, or specific backup needs.
-*   **Data Overload:** Homeowners are presented with raw technical jargon (kW, kWh, peak sun hours) without context on what it means for their specific wallet and lifestyle.
-
-### The Solution
-An automated, AI-driven platform that:
-1.  Uses **physics-based math** for accurate, fail-safe system sizing.
-2.  Uses **Predictive ML** to forecast future energy use, detect past anomalies, and predict hourly solar generation.
-3.  Uses **Generative AI** to translate technical outputs into plain-English, personalized narrative summaries.
+### **5. Functional Requirements**
+| ID | Feature | Description | Priority |
+|----|---------|-------------|----------|
+| FR-1 | **Data Ingestion** | System shall read and preprocess `solar_data.csv`, `inverter_logs.csv`, `grid_voltage.csv`, etc., and accept real-time API payloads via sliders/inputs. | High |
+| FR-2 | **ML Fault Detection** | System shall use a trained Scikit-learn model to classify incoming data into one of the 8 fault categories or "Normal", returning a confidence score. | High |
+| FR-3 | **Magnetic Agent Orchestration** | Manager agent shall analyze the fault type and dynamically delegate sub-tasks to specialist workflows (Data, Diagnostic, Repair, Report). | High |
+| FR-4 | **Parallel Data Checking** | For grid voltage or MPPT issues, the system shall simultaneously query voltage sensors, grid APIs, and inverter logs to save time. | Medium |
+| FR-5 | **Sequence Repair Flow** | For monitoring offline or comms failures, the system shall execute a strict step-by-step reboot and verification sequence. | Medium |
+| FR-6 | **Reporting & UI** | System shall generate a plain-English fault report with severity, financial impact, and recommended actions, displayed via a Streamlit dashboard. | High |
+| FR-7 | **MLOps & Fallback** | System shall log model predictions. If the `.pkl` model is missing, it shall gracefully degrade to a safe, in-memory dummy model to prevent crashes. | High |
 
 ---
 
-## 3. Target Audience
-*   **Primary:** Homeowners considering solar installation (non-technical).
-*   **Secondary:** Solar sales representatives and installers looking for a rapid, AI-assisted preliminary design and client-facing explanation tool.
+### **6. Non-Functional Requirements**
+- **Performance:** Agent diagnosis and report generation must complete in **< 10 seconds** for standard payloads.
+- **Reliability:** System uptime of **99.5%** during business hours; graceful degradation if LLM/ML services fail.
+- **Security:** All configuration files (`config`) containing API keys must be stored in environment variables. Data at rest encrypted via AES-256.
+- **Scalability:** Architecture must support scaling from 1 to 100 solar sites without rewriting agent logic (handled via config-driven site IDs).
+- **Maintainability:** Code must adhere to PEP-8, with >80% unit test coverage for agent logic, patterns, and data pipelines.
 
 ---
 
-## 4. Functional Requirements
-
-### 4.1. System Configuration (Input Module)
-*   **FR 1.1:** The system shall accept user inputs for: Location (zip/code), average monthly electricity bill, available roof area, desired backup hours, and critical load percentage.
-*   **FR 1.2:** The system shall allow optional toggles/inputs for high-draw appliances (EV charger, AC unit, pool pump).
-
-### 4.2. Recommended System Design (Engineering Module)
-*   **FR 2.1:** The system shall calculate and display: Solar array size (kW + panel count), battery storage capacity (kWh), inverter size (kW), and estimated total investment.
-*   **FR 2.2:** **Guarded Formulas:** All engineering calculations must include strict boundary checking and fallback values to prevent `NaN`, `Infinity`, or negative results (e.g., if roof area is 0, default to a standard ground-mount assumption or prompt user).
-
-### 4.3. Financial & Environmental Insights
-*   **FR 3.1:** Calculate and display estimated monthly savings, payback period (years), and estimated CO₂ avoided per year.
-
-### 4.4. Consumption Analytics & Predictive ML
-*   **FR 4.1:** Display a historical monthly usage chart.
-*   **FR 4.2:** Generate a next-month consumption forecast using a Scikit-Learn Linear Regression model.
-*   **FR 4.3:** Run Anomaly Detection using an Isolation Forest model on historical data. Flag anomalous dates on the chart with a severity indicator (Low/Med/High).
-
-### 4.5. Predicted Solar Generation
-*   **FR 5.1:** Generate an hourly solar generation curve for a representative day.
-*   **FR 5.2:** Use a lightweight TensorFlow model for prediction if the library is installed.
-*   **FR 5.3:** **Fallback:** Automatically revert to a deterministic physics-based calculation (using location irradiance and array size) if TensorFlow is unavailable or fails.
-
-### 4.6. Generative AI Insights (Narrative Summary)
-*   **FR 6.1:** Generate a natural-language summary of the entire system design, financial ROI, and ML insights.
-*   **FR 6.2:** Integrate with any OpenAI-compatible API. Default configuration: Groq endpoint using Llama 3.3.
-*   **FR 6.3:** The GenAI output must explicitly reference the user's specific inputs and the calculated engineering outputs.
-
-### 4.7. Data Management
-*   **FR 7.1:** Allow users to upload historical daily consumption data via CSV.
-*   **FR 7.2:** Provide a default `data/datasets.csv` for demonstration purposes.
-*   **FR 7.3:** Allow users to download the processed dataset and final system design parameters as a CSV/PDF.
+### **7. Technology Stack & Tools**
+| Category | Technology / Tool | Purpose |
+|----------|-------------------|---------|
+| **Language** | Python 3.10+ | Core application logic and agent orchestration. |
+| **Data Processing** | Pandas, NumPy | Data cleaning, transformation, and statistical analysis. |
+| **Visualization** | Plotly, Matplotlib | Interactive, responsive charts (Line, Bar, Pie, Histogram, Gauge, Topology) in the UI. |
+| **Machine Learning** | Scikit-learn | Fault classification models (Random Forest) with Label Encoding. |
+| **MLOps** | MLflow, Joblib | Model tracking, artifact saving (`solar_fault_model.pkl`), and deployment monitoring. |
+| **Multi-Agent Framework** | Custom Python Classes | Orchestrating Sequence, Parallel, and Magnetic agent patterns with `ThreadPoolExecutor`. |
+| **Frontend / UI** | Streamlit | Rapid development of the internal dashboard with dynamic Light/Dark CSS theming. |
+| **Configuration** | TOML | Secure, readable storage of API keys, model paths, and site configs. |
+| **Logging** | Python `logging` | Audit trails of agent actions, errors, and ML predictions. |
 
 ---
 
-## 5. AI, ML & GenAI Specific Requirements
+### **8. Cost Estimate (Production)**
+*Assumptions: Mid-sized deployment managing 5–10 solar sites, processing ~10,000 data rows/day, moderate LLM token usage.*
 
-Because this is an AI-centric application, specific guardrails and architectural decisions are required:
+#### **A. Monthly Operational Costs (Tooling & Infrastructure)**
+| Item | Service / Provider | Estimated Monthly Cost | Notes |
+|------|-------------------|------------------------|-------|
+| **Cloud Compute** | AWS EC2 (t3.medium) or Render | $40 - $60 | Hosts Streamlit app, agent backend, and ML inference. |
+| **Cloud Storage** | AWS S3 / Backblaze B2 | $10 - $15 | Stores CSV logs, model artifacts, and MLflow tracking data. |
+| **LLM API Costs** | OpenAI / Anthropic | $50 - $150 | Based on ~50k–150k tokens/month for agent reasoning. |
+| **MLOps / Monitoring** | MLflow (Self-hosted) + Sentry | $0 - $25 | Self-hosted MLflow is free; Sentry free tier for error tracking. |
+| **Domain & SSL** | Namecheap / Cloudflare | $2 - $5 | Custom domain for the Streamlit dashboard. |
+| **Total Monthly** | | **~$102 - $255 / month** | *Excludes human labor/salaries.* |
 
-### 5.1. Predictive Machine Learning
-| Model | Framework | Purpose | Fallback / Guardrail |
-| :--- | :--- | :--- | :--- |
-| **Consumption Forecast** | Scikit-Learn (Linear Regression) | Predict next month's kWh usage based on historical trend. | If insufficient data (<3 months), fallback to simple moving average. |
-| **Anomaly Detection** | Scikit-Learn (Isolation Forest) | Identify unusual spikes/drops in daily usage. | If data is too sparse, disable anomaly detection and show a warning. |
-| **Generation Curve** | TensorFlow (Tiny Dense/Sequential) | Predict hourly kW output based on time of day/weather proxies. | **Strict Fallback:** Physics-based sine-wave/trapezoid model based on peak sun hours. |
-
-### 5.2. Generative AI (LLM) Integration
-*   **Model:** Llama 3.3 (via Groq) for low-latency inference.
-*   **Context Window Management:** The prompt must dynamically inject the user's inputs, the engineering outputs, and the ML anomaly findings into the system prompt.
-*   **Prompt Engineering Strategy:**
-    *   *Role:* "You are an expert, friendly solar energy consultant."
-    *   *Task:* "Explain the recommended system, the financial benefits, and any weird energy usage anomalies in plain English."
-    *   *Constraints:* "Do not invent numbers. Only use the provided data. Keep it under 300 words."
-*   **Hallucination Guardrails:** The UI must clearly label the GenAI text as "AI-Generated Summary" and provide a "View Raw Data" toggle so users can verify the math.
-*   **Error Handling:** If the LLM API times out or returns an error, the UI must gracefully degrade, showing a structured, template-based text summary instead of breaking the app.
-
----
-
-## 6. Technical Architecture & Stack
-
-Based on the provided project structure, the technical stack is defined as follows:
-
-*   **Frontend / UI:** Python-based web framework (Streamlit, Dash, or Gradio) utilizing custom CSS (`support/ui/styling.py`) and modular components (`support/ui/components.py`).
-*   **Backend / Core Logic:** Python 3.10+
-*   **Engineering Math:** Pure Python / NumPy / Pandas (`support/engineering.py`).
-*   **Predictive ML:** Scikit-Learn, TensorFlow/Keras (`support/ml.py`).
-*   **Generative AI:** `openai` Python SDK configured for Groq API (`support/ai_insights.py`).
-*   **Data Visualization:** Matplotlib, Seaborn (`support/visualize/charts.py`).
-*   **Data Handling:** Pandas for CSV parsing and manipulation.
-
-### Directory Structure Enforcement
-*   **Separation of Concerns:** UI logic must *never* contain math or ML code. `main_app.py` acts strictly as the orchestrator, passing data between `ui/`, `engineering.py`, `ml.py`, and `ai_insights.py`.
+#### **B. Overall First-Year Cost Estimate**
+| Category | Estimated Cost (Year 1) | Notes |
+|----------|-------------------------|-------|
+| **Infrastructure & Tools** | $1,500 - $3,000 | 12 months of operational costs. |
+| **Development** | $15,000 - $40,000 | Assumes 1 Full-Stack/ML Engineer for 2–3 months (part-time or contract). |
+| **Contingency (15%)** | $2,500 - $6,500 | Buffer for unexpected API price hikes or scope expansion. |
+| **Total Year 1 Budget** | **$19,000 - $49,500** | Highly dependent on whether development is in-house or contracted. |
 
 ---
 
-## 7. User Flow / User Journey
-
-1.  **Onboarding & Input:** User lands on the app, reads a brief welcome message, and fills out the System Configuration form.
-2.  **Data Loading (Optional):** User uploads their utility CSV, or uses the default dataset.
-3.  **Processing (Background):**
-    *   App calculates engineering sizing (guarded).
-    *   App runs ML models (forecast, anomalies, generation).
-4.  **Dashboard Rendering:**
-    *   Tab 1: System Design & Financials (Cards with kW, kWh, Payback).
-    *   Tab 2: Consumption Analytics (Charts with forecast and anomaly flags).
-    *   Tab 3: Generation Prediction (Hourly curve).
-5.  **GenAI Synthesis:** User clicks "Generate AI Insights". A loading spinner appears while Groq/Llama 3.3 generates the narrative. The text streams or appears in a dedicated "Consultant Summary" card.
-6.  **Export:** User downloads their custom report.
+### **9. Project Timeline & Milestones (6-Week Plan)**
+| Phase | Duration | Key Deliverables |
+|-------|----------|------------------|
+| **Week 1: Discovery & Design** | Days 1-7 | Finalized PRD, system architecture diagram, dataset collection (20-row CSVs), `requirements.txt` lock. |
+| **Week 2: Core ML & Data** | Days 8-14 | Data pipelines built, Scikit-learn ML model trained & validated with auto-fallback logic. |
+| **Week 3: Agent Orchestration** | Days 15-21 | Custom Multi-Agent system built (Manager, Diagnostic, Repair, Report) with Sequence/Parallel/Magnetic patterns. |
+| **Week 4: UI & Integration** | Days 22-28 | Streamlit dashboard connected to agents, Light/Dark mode CSS enforced, 6+ Plotly/Matplotlib charts implemented. |
+| **Week 5: Testing & QA** | Days 29-35 | Unit tests, integration tests, simulated fault injection (sliders), prompt/logic tuning to reduce hallucinations. |
+| **Week 6: Deployment & Handoff** | Days 36-42 | Cloud deployment, MLflow tracking active, user documentation (`README.md`), and stakeholder demo. |
 
 ---
 
-## 8. Non-Functional Requirements
-
-*   **Performance:** The engineering and ML calculations must complete in < 2 seconds. The GenAI narrative generation should take < 5 seconds (leveraging Groq's fast inference).
-*   **Reliability:** The application must not crash if external APIs (LLM) fail or if optional libraries (TensorFlow) are missing. Fallbacks are mandatory.
-*   **Usability:** The UI must score highly on accessibility. Tooltips must be present on all technical inputs (e.g., explaining what "Critical Load" means).
-*   **Security:** API keys for the LLM (Groq/OpenAI) must be loaded via environment variables (`.env`), never hardcoded.
-
----
-
-## 9. Success Metrics (KPIs)
-
-*   **Time-to-Value:** Average time from user landing on the page to viewing their final AI summary (Target: < 60 seconds).
-*   **Engineering Accuracy:** System sizing matches manual calculations by a certified solar engineer within a 5% margin of error (validated via testing).
-*   **GenAI Comprehension:** User feedback/rating on the helpfulness of the AI-generated summary (Target: > 4.5/5 stars).
-*   **System Stability:** 99.9% uptime for the core app; graceful degradation rate of 100% for LLM/ML fallbacks (no hard crashes).
+### **10. Risks & Mitigation Strategies**
+| Risk | Impact | Probability | Mitigation Strategy |
+|------|--------|-------------|---------------------|
+| **LLM/Logic Hallucination** (Agent suggests dangerous repair) | High | Medium | Implement strict prompt engineering, require agent outputs to be validated against a predefined "Safe Repair Knowledge Base", and add a "Human-in-the-Loop" approval step. |
+| **Data Quality Issues** (Missing/noisy sensor data) | High | High | Build robust data validation in the `DataAgent` to flag and impute missing values before ML inference. |
+| **Model File Corruption/Missing** | Medium | Low | Implement the `SolarFaultPredictor` auto-fallback mechanism to instantly generate a safe, in-memory dummy model to prevent application crashes. |
+| **Model Drift** (ML accuracy degrades over time) | Medium | Medium | Use MLflow to monitor prediction distributions. Set up automated alerts to retrain the model quarterly with new field data. |
 
 ---
 
-## 10. Risks & Mitigations
+### **11. Project Structure**
+```text
+solar-multi-agent/
+│
+├── app.py                      # Main CLI entry point & core agent/pattern logic
+├── ui.py                       # Interactive Streamlit UI (Light/Dark mode)
+├── config(file)                 # Configuration file (Theme, Server, LLM, App settings)
+├── requirements.txt            # Python dependencies
+├── README.md                   # Project structure and documentation
+│
+├── agents/                     # Multi-Agent System definitions
+│   ├── __init__.py
+│   ├── manager_agent.py        # Central orchestrator routing tasks based on fault type
+│   ├── data_agent.py           # Ingests and preprocesses raw sensor data
+│   ├── diagnostic_agent.py     # Uses ML model to classify the specific fault
+│   ├── repair_agent.py         # Generates step-by-step repair recommendations
+│   └── report_agent.py         # Compiles the final diagnostic report with impact scoring
+│
+├── patterns/                   # Agent orchestration patterns
+│   ├── __init__.py
+│   ├── sequence.py             # Strict step-by-step execution (e.g., reboot sequences)
+│   ├── parallel.py             # Concurrent task execution (e.g., multi-source data checks)
+│   └── magentic.py             # Manager delegates to specialist agents dynamically
+│
+├── data/                       # Sample and historical sensor data (CSV, 20 rows each)
+│   ├── grid_voltage.csv        # 3-phase grid voltage and frequency
+│   ├── inverter_logs.csv       # Inverter efficiency and error codes
+│   ├── wiring_faults.csv       # Historical wiring/grounding fault logs
+│   ├── battery_data.csv        # Battery State of Charge (SoC) and health
+│   └── monitoring_status.csv   # Network ping, packet loss, and connection status
+│
+├── ml_models/                  # Directory for saved model artifacts (generated at runtime)
+│   ├── solar_fault_model.pkl   # Trained Scikit-learn model
+│   └── label_encoder.pkl       # Maps numeric predictions to fault names
+│
+└── utils/                      # Utility and helper functions
+    ├── __init__.py
+    ├── logger.py               # Configures rotating file and console logging
+    └── helpers.py              # Config loading, timestamp formatting, path helpers
+```
 
-| Risk | Impact | Mitigation Strategy |
-| :--- | :--- | :--- |
-| **LLM Hallucination** | High | Strict prompt engineering; inject only verified variables; add UI disclaimers; provide "View Raw Data" option. |
-| **ML Model Overfitting** | Medium | Use simple models (Linear Regression, Isolation Forest) rather than deep learning for small datasets. Implement strict fallbacks. |
-| **Missing User Data** | Medium | If user doesn't upload a CSV, use the default `datasets.csv` and clearly state "Using regional average data for analytics." |
-| **API Rate Limits/Costs** | Low | Use Groq (currently highly cost-effective/free tier); cache LLM responses for identical system configurations. |
+---
+
+## Multi-Agent System Architecture
+
+## Presentation Layer
+
+- **[UI]** Streamlit Web UI / Dashboard
+  - Light & Dark Mode
+- **Flow:** Triggers Workflow & Sliders → Multi-Agent Orchestration Layer
+
+---
+
+## Multi-Agent Orchestration Layer
+
+### Manager Agent
+
+- **[Manager]** Manager Agent (Orchestrator)
+- Delegates tasks to:
+
+| Agent | Role | Responsibility |
+|---|---|---|
+| **[Data]** | Data Agent | Preproc |
+| **[Diag]** | Diagnostic Agent | ML Class |
+| **[Repair]** | Repair Agent | Planner |
+| **[Report]** | Report Agent | Compiler |
+
+---
+
+## AI & ML Engine
+
+| Component | Technology | Purpose |
+|---|---|---|
+| **[LLM]** | OpenAI / LLM API | Reasoning & NLP |
+| **[MLModel]** | Scikit-Learn Fault Model | Random Forest + Fallback |
+| **[Patterns]** | Pattern Engines | Sequence, Parallel, Magnetic |
+
+---
+
+## Data & Infrastructure
+
+| Component | Description |
+|---|---|
+| **[CSVs]** | CSV Data Sources (20-row samples) |
+| **[Config]** | config |
+| **[Logs]** | MLflow & System Logs |
 
 ---
